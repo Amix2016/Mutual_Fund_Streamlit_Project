@@ -1,14 +1,15 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 st.set_page_config(layout='wide', page_title='Mutual Fund Analysis')
 
 df = pd.read_csv('comprehensive_mutual_funds_data.csv')
 
 # imputing missing values
-df['returns_3yr'] = df.groupby('category')['returns_3yr'].apply(lambda x: x.fillna(x.mean()))
-df['returns_5yr'] = df.groupby('category')['returns_5yr'].apply(lambda x: x.fillna(x.mean()))
+df['returns_3yr'] = round(df.groupby('category')['returns_3yr'].transform(lambda grp: grp.fillna(np.mean(grp))),2)
+df['returns_5yr'] = round(df.groupby('category')['returns_5yr'].transform(lambda grp: grp.fillna(np.mean(grp))),2)
 
 
 # create a function to make a category columns with above fund size
